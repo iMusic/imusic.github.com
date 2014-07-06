@@ -13,7 +13,7 @@
       			file = e.clipboardData.items[0].getAsFile();
       
       		reader.onload = function(e) {
-      		  var nimg = document.createElement('image');
+      		  var nimg = document.createElement('img');
       		  nimg.src = this.result;
       		  nimg.style.cssText = 'max-width:300px;max-height:300px;';
       		  
