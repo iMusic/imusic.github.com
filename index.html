@@ -1,43 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>哈哈哈</title>
+    <title>目录/title>
 
   </head>
   <body>
-    <script>
-      document.body.addEventListener('paste', function(e) {
-      	if (e.clipboardData && e.clipboardData.items[0].type.indexOf('image') > -1) {
-      		var that = this,
-      			reader = new FileReader();
-      			file = e.clipboardData.items[0].getAsFile();
-      
-      		reader.onload = function(e) {
-      		  var nimg = document.createElement('img');
-      		  nimg.src = this.result;
-      		  nimg.style.cssText = 'max-width:300px;max-height:300px;';
-      		  
-      		  document.body.appendChild(nimg);
-      		  
-      		  return;
-      			var xhr = new XMLHttpRequest(),
-      				fd = new FormData();
-      
-      			xhr.open('POST', 'http://img.foo.com/upload.php', true);
-      			xhr.addEventListener('load', function() {
-      				var img = document.createElement('img');
-      				img.src = xhr.responseText;
-      				that.appendChild(img);
-      			}, false);
-      
-      			fd.append('file', this.result);	//this.result -> png;base64
-      			xhr.send(fd);
-      		}
-      		reader.readAsDataURL(file);		
-      	} else {
-      		//
-      	}
-      }, false);
-    </script>
   </body>
 </html>
