@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>无标题文档</title>
+
+<style>
+.circle_blue {
+  background-color: rgba(0,0,0,0);
+  border:5px solid rgba(0,183,229,.9);
+  opacity:.9;
+  border-right:5px solid rgba(0,0,0,0);
+  border-left:5px solid rgba(0,0,0,0);
+  border-radius:50px;
+  box-shadow:0 0 35px #2187e7;
+  width:50px;
+  height:50px;
+  margin:0 auto;
+  -webkit-animation:spinPulse 1s infinite ease-in-out;
+}
+
+.circle_1 {
+  background-color:rgba(0,0,0,0);
+  border:5px solid rgba(0,183,229,.9);
+  opacity:.9;
+  border-left:5px solid rgba(0,0,0,0);
+  border-right:5px solid rgba(0,0,0,0);
+  border-radius:50px;
+  box-shadow:0 0 15px #2187e7;
+  width:30px;
+  height:30px;
+  margin:0 auto;
+  position:relative;top:-50px;
+  -webkit-animation:spinoffPulse 1s infinite linear;
+}
+
+
+@-webkit-keyframes spinPulse {
+	0% { -webkit-transform:rotate(160deg); opacity:0; box-shadow:0 0 1px #505050; }
+	50% { -webkit-transform:rotate(145deg); opacity:1;}
+	100% { -webkit-transform:rotate(-320deg); opacity:0; }
+}
+
+@-webkit-keyframes spinoffPulse {
+	0% { -webkit-transform:rotate(0deg); }
+	100% { -webkit-transform:rotate(360deg); }
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="content">
+        <div class="circle"></div>
+        <div class="circle_1"></div>
+    </div>
+</div>
+</body>
+</html>
