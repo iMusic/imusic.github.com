@@ -158,21 +158,21 @@ ul, li {list-style: none;}
 
 .msg-item chat\:nick {
 	position: absolute; top: 0;
-	margin-left: 4px;
+	margin-left: 6px;
 	color: rgb(139, 139, 139);
 	vertical-align: top;
 }
 
 .msg-item chat\:msg {
 	display: inline-block;
-	margin-top: 12px;
+	margin-top: 12px; margin-left: 6px;
 	max-width: 380px;
 	word-break:break-all;
 }
 
 .msg-item.owner chat\:msg {
 	float: right;
-	margin-top: 0; margin-right: 4px;
+	margin-top: 0; margin-right: 6px;
 }
 
 /*MsgBubble Style*/
@@ -267,7 +267,7 @@ ul, li {list-style: none;}
 /*MsgBubble*/
 .bubble_0 {
 	position: relative; top: 2px; left: 4px;
-	padding: 8px;
+	margin-bottom: 4px; padding: 8px;
 	background-color: #E3E7EE;
 	border: 1px solid #BDC1C5; border-radius: 6px;
 	box-shadow: inset 0 2px 0px -1px rgba(255, 255, 255, 0.2), 1px 1px 1px #DEE5DE;
@@ -291,6 +291,7 @@ ul, li {list-style: none;}
 
 .msg-item.owner .bubble_0 {
 	position: relative; top: 2px; left: -4px;
+	margin-bottom: 0;
 	background-color: #CCE7F5;
 	border: 1px solid #AFC8DC; border-radius: 6px;
 	box-shadow: inset 0 2px 0px -1px rgba(255, 255, 255, 0.2), 1px 1px 1px #D9E2E0;
