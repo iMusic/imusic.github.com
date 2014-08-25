@@ -6,23 +6,6 @@
 <link rel="stylesheet" href="./publish/css/main.css">
 </head>
 <body>
-<button onclick="del();">删除登录态</button>
-<div id="degbug"></div>
-<script>
-function del() {
-    localStorage.clear();
-    showStorage();
-}
-function showStorage() {
-    if (localStorage.user) {
-        html = '登录QQ为：' + JSON.parse(localStorage.user).uin;
-    } else {
-        html = '未登录';
-    }
-    document.querySelector('#degbug').innerHTML = html;
-}
-showStorage();
-</script>
 <div id="J_Login" class="login-container">
     <div class="login-box">
         <img id="J_loginAvatar" class="avatar" src="http://q.qlogo.cn/headimg_dl?dst_uin=12345&spec=100" width=80 height=80>
@@ -40,26 +23,11 @@ showStorage();
         </div>
 
         <div class="list-box">
-            <ul class="user-list">
-                <!-- <li>
-                    <img src="http://q.qlogo.cn/headimg_dl?dst_uin=12345&spec=40" width=16 height=16>
-                    <chat:nick>12345</chat:nick><chat:uin>(181322458)</chat:uin>
-                </li> -->
-            </ul>
+            <ul class="user-list"></ul>
         </div>
 
         <div class="msg-box">
-            <div class="msg-cnt">
-                <!-- <div class="msg-item">
-                    <img src="http://q.qlogo.cn/headimg_dl?dst_uin=12345&spec=40" width=30 height=30>
-                    <chat:nick>12345</chat:nick>
-                    <chat:msg class="avatar_1">测试</chat:msg>
-                </div>
-                <div class="msg-item owner">
-                    <img src="http://q.qlogo.cn/headimg_dl?dst_uin=10000&spec=40" width=30 height=30>
-                    <chat:msg class="avatar_1">测试</chat:msg>
-                </div> -->
-            </div>
+            <div class="msg-cnt"></div>
         </div>
 
         <div class="input-box">
@@ -68,18 +36,7 @@ showStorage();
         </div>
     </div>
 </div>
-
-<!-- <div class="popup-box">
-    <div class="popup-cnt">
-        <i class="popup-icon" data-icon="m-warn"></i>
-        <p class="popup-txt">测试测试</p>
-    </div>
-    <div class="popup-btn">
-        <button class="popup-confirm">确定</button>
-        <button class="popup-cancel">取消</button>
-    </div>
-</div> -->
-<script src="http://realtime.plhwin.com:3000/socket.io/socket.io.js"></script>
-<script src="./publish/js/chat.js"></script>
+<script src="./publish/js/socket.io.js"></script>
+<script src="./publish/js/chat.min.js"></script>
 </body>
 </html>
