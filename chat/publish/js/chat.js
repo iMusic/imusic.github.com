@@ -227,7 +227,7 @@ function Chat() {
 			<chat:msg class="bubble_{bubble}">{msg}</chat:msg>\
 		</div>';
 
-	var socket = io.connect('http://localhost:3000/');
+	var socket = io.connect('http://chat_demo.jd-app.com/');
 	socket.emit('login', User);
 	socket.on('login', function (data) {
 		var html = '';
