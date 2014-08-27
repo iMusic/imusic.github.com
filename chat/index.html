@@ -9,7 +9,11 @@
 <div id="J_Login" class="login-container">
     <div class="login-box">
         <img id="J_loginAvatar" class="avatar" src="http://q.qlogo.cn/headimg_dl?dst_uin=12345&spec=100" width=80 height=80>
-        <input type="text" id="J_loginUin" class="login-uin">
+        <div class="login-uin-wrapper">
+            <input type="text" id="J_loginUin" class="login-uin">
+            <i id="J_loginSel">6</i>
+        </div>
+        <ul class="login-list"></ul>
         <input type="checkbox" id="J_loginAuto" class="login-auto">
         <label for="J_loginAuto" class="login-auto-txt"></label>
         <button id="J_loginEnter" class="login-btn">登&nbsp;&nbsp;录</button>

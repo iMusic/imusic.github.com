@@ -1,4 +1,4 @@
-/**随便写写**/
+/**随便写写，乱78糟的**/
 
 var $ = function(id) {
 	return document.querySelector(id);
@@ -119,6 +119,14 @@ var User = {
 	bubble: 0
 }
 
+var Users = {};
+var Users_tmpl =
+	'<div class="img-box">\
+		<img src="http://q.qlogo.cn/headimg_dl?dst_uin={uin}&spec=40">\
+	</div>\
+	<span>{nick}</span>\
+	<p>{uin}</p>\
+	<i>r</i>';
 
 /* Login */
 ;(function () {
@@ -148,6 +156,19 @@ var User = {
 		}
 	}
 
+	// 加载登陆过的列表
+	Users = localStorage.users ? JSON.parse(localStorage.users) : {};
+	var fragment =  document.createDocumentFragment();
+	for (var uin in Users) {
+		var li = document.createElement('li');
+		li.id = 'users_' + uin;
+		li.dataset['uin'] = uin;
+		li.innerHTML = Fx.format(Users_tmpl, Users[uin]);
+		fragment.appendChild(li);
+	}
+	$('.login-list').appendChild(fragment);
+
+
 	// 判断输入框号码
 	$('#J_loginUin').addEventListener('input', function() {
 		var uin = User.uin;
@@ -161,6 +182,64 @@ var User = {
 		if (e.keyCode === 13) {
 			login();
 		}
+	}, false);
+
+	// 选择登录过的号码
+	$('#J_loginSel').addEventListener('click', function (e) {
+		e.stopPropagation();
+		if (this.className == 'on') {
+			this.className =  '';
+			$('.login-list').style.display = 'none';
+		} else {
+			this.className = 'on';
+			$('.login-list').style.display = 'block';
+			if (User.uin) {
+				var i = $$('.login-list li').length;
+				while(i--) {
+					$$('.login-list li')[i].className = '';
+				}
+
+				$('#users_' + User.uin).className = 'current';
+			}
+		}
+	}, false);
+	document.body.addEventListener('click', function (e) {
+		$('#J_loginSel').className =  '';
+		$('.login-list').style.display = 'none';
+	}, false);
+
+	var loginUl = document.querySelector('.login-list');
+	var loginLis = loginUl.querySelectorAll('li');
+	loginUl.addEventListener('mouseenter', function (e) {
+		if (e.target.tagName.toLowerCase() === 'li') {
+			[].slice.call(loginLis, 0).forEach(function (v, i) {
+				v.className = (v === e.target) ? 'current' : '';
+			});
+		}
+	}, true);
+
+	loginUl.addEventListener('mousedown', function (e) {
+		if (e.target.tagName.toLowerCase() === 'i') {
+			var node = e.target.parentNode, uin = node.dataset.uin;
+			if (User.uin === uin) {
+				$('#J_loginAvatar').src = 'http://q.qlogo.cn/headimg_dl?dst_uin=12345&spec=100';
+				$('#J_loginUin').value = ''
+				User = {};
+				localStorage.removeItem('user');
+			}
+			delete Users[uin];
+			localStorage.setItem('users', JSON.stringify(Users));
+			this.removeChild(node);
+			return false;
+		}
+		var node;
+		if (e.target.tagName.toLowerCase() === 'li') {
+			node = e.target;
+		} else {
+			node = e.target.parentNode;
+		}
+		$('#J_loginAvatar').src = 'http://q.qlogo.cn/headimg_dl?dst_uin='+ node.dataset.uin +'&spec=100';
+		$('#J_loginUin').value = node.dataset.uin;
 	}, false);
 
 
@@ -227,7 +306,7 @@ function Chat() {
 			<chat:msg class="bubble_{bubble}">{msg}</chat:msg>\
 		</div>';
 
-	var socket = io.connect('http://chat_demo.jd-app.com/');
+	var socket = io.connect('http://localhost:3000/');
 	socket.emit('login', User);
 	socket.on('login', function (data) {
 		var html = '';
@@ -240,6 +319,11 @@ function Chat() {
 
 		$('.input-cnt').removeAttribute('disabled');
 		$('.input-cnt').focus();
+
+		if (!Users[User.uin]) {
+			Users[User.uin] = User;
+			localStorage.setItem('users', JSON.stringify(Users));
+		}
 	});
 
 	socket.on('useradd', function (data) {

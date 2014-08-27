@@ -1,5 +1,8 @@
 /**随便写写**/
 * {margin: 0; padding: 0;}
+html, body {
+	height: 100%;
+}
 body {
 	font-size: 12px;
 	font-family: 'arial,georgia,verdana,helvetica,sans-serif';
@@ -23,25 +26,127 @@ ul, li {list-style: none;}
 	border-radius: 3px;
 }
 
-.login-box .login-uin {
+.login-box .login-uin-wrapper {
 	display: block;
 	position: absolute; top: 206px; left: 145px;
 	padding: 5px 6px;
 	width: 180px; height: 18px;
 	background: none;
-	border: 1px solid rgb(209, 209, 209);border-radius: 3px 3px 0 0;
-	outline: none;
+	border: 1px solid rgb(209, 209, 209); border-radius: 3px 3px 0 0;
 }
 
-.login-box .login-uin:hover {
-	border: 1px solid rgb(21, 131, 221);
-	background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAICAYAAAAbQcSUAAAAaUlEQVQoz2P4//8/A7UwdkEGhiggTsODo4g2LBEImJmZvwE1/UfHIHGQPNGGAbHCggULFrKxsf1ENgjEB4mD5EnxJoaByAZB5Yk3DNlAPj6+L8gGkWUYzMC3b982IRtEtmFQjaxYxDAwAGi4TwMYKNLfAAAAAElFTkSuQmCC') no-repeat 170px center;
+.login-box .login-uin {
+	width: 160px;
+	border: none;
+	outline: none;
 }
 
 .login-box .login-uin::selection {
 	color: #FFF;
 	background-color: #39F;
 }
+
+.login-box .login-uin-wrapper:hover {
+	border: 1px solid rgb(21, 131, 221);
+}
+
+.login-box .login-uin-wrapper i {
+	position: absolute; top: 0; right: 0;
+	width: 23px; height: 28px;
+	background: #fff;
+	color: #b1b1b1;
+	font: normal bold 14px/28px webdings;
+	border-radius: 0 3px 0 3px;
+	text-align: center;
+	cursor: default;
+	-webkit-user-select: none;
+}
+
+.login-box .login-uin-wrapper i:hover {
+	color: #000;
+}
+
+.login-box .login-uin-wrapper i.on {
+	color: #000;
+	transform: scale(-1);
+}
+
+.login-list {
+	display: none;
+	position: absolute; top: 236px; left: 145px; z-index: 9;
+	width: 190px;
+	padding: 1px;
+	border: 1px solid #0093d1;
+	background-color: #fff;
+}
+.login-list li {
+	position: relative;
+	padding: 2px 1px;
+	height: 30px;
+	background: #fff;
+	cursor: default;
+	transition: height .15s ease;
+}
+.login-list .img-box {
+	overflow: hidden;
+	display: inline-block;
+	margin-right: 2px;
+	height: 30px;
+	background-color: #fff;
+	border-radius: 2px;
+	vertical-align: middle;
+	transition: all .15s ease;
+}
+.login-list .img-box img {
+	width: 30px; height: 30px;
+	transition: all .15s ease;
+}
+.login-list span {
+	display: none;
+	position: absolute; top: 7px;
+	width: 100px;
+	white-space: nowrap; text-overflow: ellipsis; overflow: hidden;
+}
+.login-list p {
+	display: inline-block;
+	color: #000;
+	vertical-align: middle;
+}
+.login-list i {
+	display: none;
+	float: right;
+	margin: 13px 13px 0 0;
+	width: 13px; height: 13px;
+	border: 1px solid transparent;
+	font: normal 14px/13px webdings;
+	color: #f1f9fe;
+	text-shadow: 0 0 1px #003469;
+}
+.login-list li.current {
+	height: 40px;
+	background: -webkit-linear-gradient(top, #3e97d8, #338aca);
+}
+.login-list li.current .img-box {
+	height: 40px;
+}
+.login-list li.current .img-box img {
+	width: 40px; height: 40px;
+}
+.login-list li.current span {
+	display: inline;
+}
+.login-list li.current p {
+	margin-top: 15px;
+	color: #fff;
+}
+.login-list li.current i {
+	display: block;
+}
+.login-list li.current i:hover {
+	background: #6dbce6;
+	border: 1px solid #c6eaf8;
+}
+
 
 .login-box .login-auto {
 	position: absolute; top: 273px; left: 273px;
@@ -62,14 +167,14 @@ ul, li {list-style: none;}
 
 .login-box .login-auto:checked::before {
 	content: '';
-	position: absolute; top: 5px; left: 1px;	
+	position: absolute; top: 5px; left: 1px;
 	width: 11px; height: 2px;
 	background-color: #FFF;
 	-webkit-transform: rotate(-45deg);
 }
 .login-box .login-auto:checked::after {
 	content: '';
-	position: absolute; top: 7px; left: 0px;	
+	position: absolute; top: 7px; left: 0px;
 	width: 4px;height: 2px;
 	background-color: #FFF;
 	-webkit-transform: rotate(45deg);
@@ -196,7 +301,6 @@ i.logout-btn:hover {
 	position: absolute; top: 0;
 	margin-left: 6px;
 	color: rgb(139, 139, 139);
-	vertical-align: top;
 }
 
 .msg-item chat\:msg {
@@ -245,7 +349,7 @@ i.logout-btn:hover {
 
 .popup-box {
 	display: inline-block;
-	position: fixed; top: 50%; left: 50%;
+	position: fixed; top: 50%; left: 50%; z-index: 99;
 	padding: 20px 40px;
 	background-color: #FFF;
 	border: 1px solid #D6D6D6; border-radius: 2px;
