@@ -171,9 +171,10 @@ var Users_tmpl =
 
 	// 判断输入框号码
 	$('#J_loginUin').addEventListener('input', function() {
-		var uin = User.uin;
-		if (this.value !== User.uin) {
+		if (!Users[this.value]) {
 			uin = 12345;
+		} else {
+			uin = this.value;
 		}
 		$('#J_loginAvatar').src = 'http://q.qlogo.cn/headimg_dl?dst_uin='+ uin +'&spec=100';
 	}, false);
