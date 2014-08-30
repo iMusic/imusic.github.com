@@ -1,4 +1,4 @@
-/**随便写写，乱78糟的**/
+/** 写的什么乱78糟的 (ง •̀_•́)ง┻━┻ **/
 
 var $ = function(id) {
 	return document.querySelector(id);
@@ -56,7 +56,7 @@ Fx.ex = {
 }
 
 Fx.create('Fx.ui.Popup', {
-	tml: 
+	tml:
 		'<div class="popup-cnt">\
 			<i class="popup-icon" data-icon="{type}"></i>\
 			<p class="popup-txt">{text}</p>\
@@ -111,14 +111,15 @@ Fx.create('Fx.ui.Button', {
 });
 
 
-//***以上是工具函数***//
-
+// >>>>>>>>>以上是工具函数<<<<<<<<<<< //
+// 当前登录记录
 var User = {
 	uin: 0,
 	nick: '',
 	bubble: 0
 }
 
+// 本机登录记录
 var Users = {};
 var Users_tmpl =
 	'<div class="img-box">\
@@ -127,6 +128,17 @@ var Users_tmpl =
 	<span>{nick}</span>\
 	<p>{uin}</p>\
 	<i>r</i>';
+
+// 在线聊天列表
+var userList = {};
+
+// 设置
+var config = {
+	online: true,
+	message: true,
+	callme: false,
+	notify: false
+}
 
 /* Login */
 ;(function () {
@@ -194,13 +206,16 @@ var Users_tmpl =
 		} else {
 			this.className = 'on';
 			$('.login-list').style.display = 'block';
-			if (User.uin) {
+
+			if (Object.keys(Users).length) {
 				var i = $$('.login-list li').length;
 				while(i--) {
 					$$('.login-list li')[i].className = '';
 				}
 
 				$('#users_' + User.uin).className = 'current';
+			} else {
+				$('.login-list').style.height = '50px';
 			}
 		}
 	}, false);
@@ -220,6 +235,7 @@ var Users_tmpl =
 	}, true);
 
 	loginUl.addEventListener('mousedown', function (e) {
+		// 点击删除登陆记录
 		if (e.target.tagName.toLowerCase() === 'i') {
 			var node = e.target.parentNode, uin = node.dataset.uin;
 			if (User.uin === uin) {
@@ -233,16 +249,17 @@ var Users_tmpl =
 			this.removeChild(node);
 			return false;
 		}
-		var node;
-		if (e.target.tagName.toLowerCase() === 'li') {
-			node = e.target;
-		} else {
-			node = e.target.parentNode;
+
+		// 无记录时
+		if (e.target.tagName.toLowerCase() === 'ul') {
+			return false;
 		}
+
+		var node = (e.target.tagName.toLowerCase() === 'li') ? e.target : e.target.parentNode;
+
 		$('#J_loginAvatar').src = 'http://q.qlogo.cn/headimg_dl?dst_uin='+ node.dataset.uin +'&spec=100';
 		$('#J_loginUin').value = node.dataset.uin;
 	}, false);
-
 
 	// 点击登录
 	$('#J_loginEnter').addEventListener('click', login, false);
@@ -276,12 +293,12 @@ var Users_tmpl =
 	// 显示聊天对话框，获取昵称
 	function showUser(uin) {
 		$('#J_Login').style.display = 'none';
-		$('#J_Chat').style.display = 'block';
+		$('#J_Loader').style.display = 'block';
 		history.replaceState({}, null, '/chat/');
 		User.uin = uin;
 		Fx.ex.getQQ('http://zhanchen.me/api/getQQ.php?qq=' + uin, function () {
 			window.getQQ = function (data) {
-				User.nick = data.nickname || 'nick';
+				User.nick = data.nickname || uin;
 				Chat();
 			}
 		});
@@ -307,9 +324,14 @@ function Chat() {
 			<chat:msg class="bubble_{bubble}">{msg}</chat:msg>\
 		</div>';
 
-	var socket = io.connect('http://chat_demo.jd-app.com/');
+	var notify_id = 1;
+
+	var socket = io.connect('http://localhost:3000/');
 	socket.emit('login', User);
 	socket.on('login', function (data) {
+		$('#J_Loader').style.display = 'none';
+		$('#J_Chat').style.display = 'block';
+
 		var html = '';
 		for (var i in data) {
 			html += Fx.format(usertmpl, {uin: i, nick: data[i].nick})
@@ -325,6 +347,8 @@ function Chat() {
 			Users[User.uin] = User;
 			localStorage.setItem('users', JSON.stringify(Users));
 		}
+
+		userList = data;
 	});
 
 	socket.on('useradd', function (data) {
@@ -333,21 +357,63 @@ function Chat() {
 		$('.user-list li:last-child').addEventListener('webkitAnimationEnd', function () {
 			this.className = '';
 		}, false);
+
+		if (config.notify && document.hidden) {
+			new Fx.evt.Notify().init({
+				title:'系统通知',
+				message: data.nick + '(' + data.uin + ')上线了',
+				image: 'http://q.qlogo.cn/headimg_dl?dst_uin='+ data.uin +'&spec=40',
+				tag: 3,
+				timer: 3000
+			});
+		}
+
+		userList[data.uin] = data;
 	});
 
 	socket.on('no-login', function () {
-		console.log('Error!');
+		new Fx.ui.Popup({
+			type: 'm-warn',
+			text: '发生错误鸟，重新登录',
+			buttons: [new Fx.ui.Button({
+				text: '好的',
+				click: function() {
+					location.reload();
+				}
+			})]
+		});
 	});
 
 	socket.on('logout', function (data) {
 		if ($('#user_' + data.uin))
 			$('.user-list').removeChild($('#user_' + data.uin));
+
+		if (config.notify && document.hidden) {
+			new Fx.evt.Notify().init({
+				title:'系统通知',
+				message: userList[data.uin].nick + '(' + data.uin + ')下线了',
+				image: 'http://q.qlogo.cn/headimg_dl?dst_uin='+ data.uin +'&spec=40',
+				tag: 3,
+				timer: 18000
+			});
+		}
 	});
 
 	socket.on('message', function (data) {
 		var tmpl = (data.uin === User.uin) ? tmpl2 : tmpl1;
 		$('.msg-cnt').innerHTML += Fx.format(tmpl, data);
 		$('.msg-box').scrollTop = $('.msg-box').scrollHeight;
+
+		if (config.notify && document.hidden) {
+			notify_id = +!notify_id;
+			new Fx.evt.Notify().init({
+				title: data.nick + '说：',
+				message: data.msg,
+				image: 'http://q.qlogo.cn/headimg_dl?dst_uin='+ data.uin +'&spec=40',
+				tag: notify_id + 1,
+				timer: 8000
+			});
+		}
 	});
 
 	// 发送事件
@@ -373,3 +439,180 @@ function Chat() {
 		location.reload();
 	}, false);
 };
+
+/* ┻━┻︵╰(‵□′)╯︵┻━┻ */
+
+;(function () {
+	/**
+	*new Fx.evt.Notify.init({
+	*	title: '凸(｀⌒´メ)凸',
+	*	image: 'xxx.png',
+	*	mesaage: 'f*ck you',
+	*	tag: 1,
+	*	timer: 3000,
+	});
+	**/
+
+	Fx.create('Fx.evt.Notify', {
+		Notify: function () {},
+		init: function (options) {
+			var notification,
+				details = {};
+			options = options || {};
+			options.title = options.title || '';
+
+			details.icon = options.image || null;
+			details.body = options.message || '';
+			details.tag = options.tag || '';
+
+			try {
+				if (Notification.permission === 'denied') {
+					new Fx.ui.Popup({
+						type: 'm-warn',
+						text: '对不起，你已关闭了chrome通知功能',
+						buttons: [new Fx.ui.Button({
+							text: '确认',
+							click: function() {
+								this.parentNode.parentNode.remove();
+							}
+						})]
+					});
+				}
+				notification = new Notification(options.title, details);
+
+				if (typeof options.timer === 'number') {
+					notification.onshow = function () {
+						setTimeout(function () {
+							notification.close();
+						}, options.timer);
+					}
+				}
+
+				notification.onclick = function () {
+					window.focus();
+				}
+			} catch(err) {
+				new Fx.ui.Popup({
+					type: 'm-warn',
+					text: '你的浏览器不支持这个功能',
+					buttons: [new Fx.ui.Button({
+						text: '知道了',
+						click: function() {
+							this.parentNode.parentNode.remove();
+						}
+					})]
+				});
+			}
+		},
+		check: function (test) {
+			switch (Notification.permission) {
+				case 'granted':
+					if (test) {
+						var notification_2 = new Notification('我来组成头部', {body: '[测试]你是猴子请来的逗逼吗？'});
+						notification_2.onshow = function () {
+							setTimeout(function () {
+								notification_2.close();
+							}, 3000);
+						}
+					}
+					break;
+				case 'default':
+					new Fx.ui.Popup({
+						type: 'm-warn',
+						text: '你将开启chrome的通知功能，请在确认后点击<strong>允许</strong>按钮',
+						buttons: [new Fx.ui.Button({
+							text: '确认',
+							click: function() {
+								this.parentNode.parentNode.remove();
+								Notification.requestPermission(function (permission) {
+									if (permission === 'granted') {
+										var notification_1 = new Notification('你已经开启通知功能');
+										notification_1.onshow = function () {
+											setTimeout(function () {
+												notification_1.close();
+											}, 3000);
+										}
+									}
+								});
+							}
+						})]
+					});
+					break;
+				case 'denied':
+					$('#w_notify').checked = false;
+					$('#w_notify').disabled = true;
+					new Fx.ui.Popup({
+						type: 'm-warn',
+						text: '对不起，你已关闭了chrome通知功能',
+						buttons: [new Fx.ui.Button({
+							text: '确认',
+							click: function() {
+								this.parentNode.parentNode.remove();
+							}
+						})]
+					});
+					break;
+				default: break;
+			}
+		}
+	});
+
+
+	var sound = document.createElement('audio');
+	sound.volume = .4;
+
+	if (localStorage.config) {
+		config = JSON.parse(localStorage.config);
+	} else {
+		localStorage.config = JSON.stringify(config);
+	}
+
+	$('#w_online').checked = config.online;
+	$('#w_message').checked = config.message;
+	$('#w_callme').checked = config.callme;
+	$('#w_notify').checked = config.notify;
+
+	$('#w_online').addEventListener('click', function (e) {
+		config.online = $('#w_online').checked;
+		localStorage.config = JSON.stringify(config);
+	}, false);
+	$('#w_message').addEventListener('click', function (e) {
+		config.message = $('#w_message').checked;
+		localStorage.config = JSON.stringify(config);
+	}, false);
+	$('#w_callme').addEventListener('click', function (e) {
+		config.callme = $('#w_callme').checked;
+		localStorage.config = JSON.stringify(config);
+	}, false);
+	$('#w_notify').addEventListener('click', function (e) {
+		config.notify = $('#w_notify').checked;
+		localStorage.config = JSON.stringify(config);
+
+		if (config.notify) {
+			new Fx.evt.Notify().check();
+		}
+	}, false);
+
+	$('#cs_online').addEventListener('click', function (e) {
+		sound.src = 'http://yun.365.sh/s/32718.mp3';
+		sound.play();
+	}, false);
+	$('#cs_message').addEventListener('click', function (e) {
+		sound.src = 'http://yun.365.sh/s/32717.mp3';
+		sound.play();
+	}, false);
+	$('#cs_callme').addEventListener('click', function (e) {
+		sound.src = 'http://yun.365.sh/s/32716.mp3';
+		sound.play();
+	}, false);
+	$('#cs_notify').addEventListener('click', function (e) {
+		new Fx.evt.Notify().check(true);
+	}, false);
+
+	// 备用
+	document.addEventListener('visibilitychange', function() {
+		
+	}, false);
+
+}());
+

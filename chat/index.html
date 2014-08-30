@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="./publish/css/main.css">
 </head>
 <body>
-<div id="J_Login" class="login-container">
+<div id="J_Login" class="login-container" style="display:-none;">
     <div class="login-box">
         <img id="J_loginAvatar" class="avatar" src="http://q.qlogo.cn/headimg_dl?dst_uin=12345&spec=100" width=80 height=80>
         <div class="login-uin-wrapper">
@@ -19,6 +19,8 @@
         <button id="J_loginEnter" class="login-btn">登&nbsp;&nbsp;录</button>
     </div>
 </div>
+
+<div id="J_Loader" class="loader" style="display:none;"></div>
 
 <div id="J_Chat" class="chat-container" style="display:none;">
     <div class="chat-box">
@@ -37,9 +39,18 @@
             <textarea class="input-cnt" disabled></textarea>
             <button class="input-btn"><span>发&nbsp;送</span></button>
         </div>
+
+        <div class="config-box">
+            <div class="config-cnt">
+                <input id="w_online" type="checkbox" checked><label for="w_online">上线音效</label><a id="cs_online" href="javascript:;">测试</a><br>
+                <input id="w_message" type="checkbox" checked><label for="w_message">消息音效</label><a id="cs_message" href="javascript:;">测试</a><br>
+                <input id="w_callme" type="checkbox" disabled><label for="w_callme">@我音效</label><a id="cs_callme" href="javascript:;">测试</a><br>
+                <input id="w_notify" type="checkbox"><label for="w_notify">桌面通知</label><a id="cs_notify" href="javascript:;">测试</a>
+            </div>
+        </div>
     </div>
 </div>
 <script src="./publish/js/socket.io.js"></script>
-<script src="./publish/js/chat.js"></script>
+<script src="./publish/js/chat.min.js"></script>
 </body>
 </html>
