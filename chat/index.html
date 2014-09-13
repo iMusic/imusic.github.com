@@ -3,10 +3,10 @@
 <head>
 <meta charset=utf-8>
 <title>练习练习</title>
-<link rel="stylesheet" href="./publish/css/main.css">
+<link rel="stylesheet" href="./publish/css/main.min.css">
 </head>
-<body>
-<div id="J_Login" class="login-container" style="display:-none;">
+<body class="login-status1">
+<div id="J_Login" class="login-container">
     <div class="login-box">
         <img id="J_loginAvatar" class="avatar" src="http://q.qlogo.cn/headimg_dl?dst_uin=12345&spec=100" width=80 height=80>
         <div class="login-uin-wrapper">
@@ -20,7 +20,13 @@
     </div>
 </div>
 
-<div id="J_Loader" class="loader" style="display:none;"></div>
+<div id="J_Loader" class="loader" style="display:none;">
+     Preparing the chat-room sources
+    <span class="loading-dots ani_dot">...</span>
+    <div class="loading-seperator"></div>
+    <div class="loading-msg">It will be just as you left it</div>
+
+</div>
 
 <div id="J_Chat" class="chat-container" style="display:none;">
     <div class="chat-box">
@@ -35,9 +41,16 @@
             <div class="msg-cnt"></div>
         </div>
 
+        <div class="tool-box">
+            <a href="javascript:;" class="emoji"></a>
+            <div class="emoji-cnt" style="display:none;"></div>
+            <a href="javascript:;" class="snapshot"></a>
+        </div>
+
         <div class="input-box">
-            <textarea class="input-cnt" disabled></textarea>
+            <div class="input-cnt" contenteditable spellcheck="false"></div>
             <button class="input-btn"><span>发&nbsp;送</span></button>
+            <div id="saveMsg" style="display:none;"></div>
         </div>
 
         <div class="config-box">
