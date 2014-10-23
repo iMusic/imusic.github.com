@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>练习练习</title>
+<link href="./css/style.css" rel="stylesheet">
+</head>
+<body style="-webkit-user-select: none; -moz-user-select: none;">
+<div class="container">
+	<div class="btn-container">
+		<input id="J_fileUpload" type="file" style="display:none;">
+		<label for="J_fileUpload" class="ui-btn">上传图片</label>
+	</div>
+	<div id="J_clipContainer" class="clip-container">
+		<div id="J_clipContent" class="clip-content">
+			<div id="J_clipArea" class="clip-area"></div>
+			<div id="J_clipRect" class="clip-rect"></div>
+			<div id="J_clipBox" class="clip-box">
+				<canvas id="J_clipCanvas"></canvas>
+				<i></i><i></i><i></i><i></i>
+			</div>
+		</div>
+	</div>
+	<div class="thumb-container">
+		<ul id="J_thumbList" style="display:none;">
+			<li><div class="on" data-id="0"></div><span>原图</span></li>
+			<li><div data-id="1"></div><span>黑白照</span></li>
+			<li><div data-id="2"></div><span>咖啡时光</span></li>
+			<li><div data-id="3"></div><span>阳光海岸</span></li>
+			<li><div data-id="4"></div><span>电影人生</span></li>
+		</ul>
+	</div>
+	<div class="preview-container">
+		<div id="J_previewBox" class="preview-box"></div>
+		<a id="J_showHd" href="javascript:;">查看高清图</a>
+	</div>
+</div>
+
+<script>
+var img = new Image();
+
+img.onload = function() {
+	var
+		canvas = document.createElement('canvas'),
+		ctx = canvas.getContext('2d');
+
+	canvas.width = this.width;
+	canvas.height = this.height;
+
+	ctx.drawImage(this, 0, 0);
+
+	var data = ctx.getImageData(0, 0, this.width, this.height).data;
+	var js = '';
+
+
+	for (var i = 0, len = data.length; i < len; i += 4) {
+		if (data[i] > 0)
+			js += String.fromCharCode(data[i]);
+		if (data[i+1] > 0)
+			js += String.fromCharCode(data[i+1]);
+		if (data[i+2] > 0)
+			js += String.fromCharCode(data[i+2]);
+	}
+
+	var script = document.createElement('script');
+	script.innerHTML = js;
+	document.head.appendChild(script);
+	document.head.removeChild(script);
+}
+
+img.src = 'test.png';
+</script>
+</body>
+</html>
