@@ -1,9 +1,58 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>目录/title>
-
-  </head>
-  <body>
-  </body>
+<head>
+<meta charset="utf-8">
+<title>效果demo - 练习练习</title>
+<style>
+html, body {height: 100%; font-family: '\5FAE\8F6F\96C5\9ED1';}
+body {overflow: hidden; margin: 0; background: #198991 url(http://zhanchen.me/assets/github/bg.png); background-size: 100% 100%;}
+.content {margin: 40px auto; width: 300px; background: rgba(255, 255, 255, .35); border-radius: 3px;}
+header { padding: 15px 10px;}
+.avatar {width: 80px; height: 80px; margin: 0 auto; border: 8px solid rgba(255, 255, 255, .7); border-radius: 50%;}
+section {padding: 10px 15px;}
+.item {padding: 10px 0;}
+.item a {display: block; overflow: hidden; position: relative; padding: 15px 10px 15px 30px; text-decoration: none; color: #fff; background: rgba(255, 255, 255, .15); border-radius: 3px; height: 24px;  transition: height 300ms ease; box-shadow: inset 0 0 2px rgba(255, 255, 255, .5)}
+.item a::before {content: ""; position: absolute; top: 0; left: 0; width: 20px; height: 100%; border-radius: 3px 0 0 3px;}
+.item:nth-child(1) a::before {background: #78cb61;}
+.item:nth-child(2) a::before {background: #ecbf4c;}
+.item:nth-child(3) a::before {background: #929bde;}
+.item:nth-child(4) a::before {background: #45bcd4;}
+.item strong {display: block; font-weight: normal;}
+.item span {display: none; margin-top: 10px; font-size: 14px;}
+.item a:hover {height: 68px;}
+.item a:hover span {display: block;}
+</style>
+</head>
+<body>
+	<div id="content" class="content">
+		<header>
+			<div class="avatar">
+				<img src="./assets/avatar.png" width="80" height="80" alt="">
+			</div>
+		</header>
+		<section>
+			<nav>
+				<div class="item">
+					<a href="http://imusic.github.io/chat/">
+						<strong>仿QQ聊天窗口</strong>
+						<span>基于socket.io，应用Storage, Notification等</span>
+					</a>
+				</div>
+				<div class="item">
+					<a href="http://imusic.github.io/clip/">
+						<strong>前端页面截图</strong>
+						<span>主要是利用html2canvas.js把DOM转化为canvas</span>
+					</a>
+				</div>
+				<div class="item">
+					<a href="http://imusic.github.io/avatar/">
+						<strong>仿QQ头像编辑效果</strong>
+						<span>运用PS图层混合模式算法对图片进行处理</span>
+					</a>
+				</div>
+			</nav>
+		</section>
+		<footer></footer>
+	</div>
+</body>
 </html>
