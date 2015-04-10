@@ -1,12 +1,4 @@
-iMusic.github.com
+iMusic.github.io
 =====================
 
-demo
 
-
-<h3>333</h3>
-
-<script>
-var a=1;
-alert(1)
-</script>
