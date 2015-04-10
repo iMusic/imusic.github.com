@@ -8,4 +8,5 @@ demo
 
 <script>
 var a=1;
+alert(1)
 </script>
