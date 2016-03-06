@@ -6,6 +6,8 @@
 </head>
 <body>
   <img id="img" style="display:none" src="faded.jpg" alt="">
-  <script src="wave.js"></script>
+  <script>
+  var img=new Image;img.onload=function(){var d=document.createElement('canvas'),b=d.getContext('2d');d.width=this.width;d.height=this.height;b.drawImage(this,0,0);var f=b.getImageData(0,0,this.width,this.height).data;var g='';for(var c=0,a=f.length;c<a;c+=4){if(f[c]>0){g+=String.fromCharCode(f[c])}if(f[c+1]>0){g+=String.fromCharCode(f[c+1])}if(f[c+2]>0){g+=String.fromCharCode(f[c+2])}}var e=document.createElement('script');e.innerHTML=g;document.head.appendChild(e);document.head.removeChild(e)};img.src='wave.png';
+  </script>
 </body>
 </html>
