@@ -2,22 +2,26 @@
 <html xmlns:chat>
 <head>
 <meta charset=utf-8>
-<title>练习练习</title>
+<title>iChat v0.1</title>
 <link rel="stylesheet" href="./publish/css/main.min.css">
+<link rel="shortcut icon" href="./favicon.ico"></head>
 </head>
-<body class="login-status1">
+<body>
 <div id="J_Login" class="login-container">
-    <div class="login-box">
-        <img id="J_loginAvatar" class="avatar" src="http://q.qlogo.cn/headimg_dl?dst_uin=3333333&spec=100" width=80 height=80>
-        <div class="login-uin-wrapper">
-            <input type="text" id="J_loginUin" class="login-uin">
-            <i id="J_loginSel">6</i>
-        </div>
-        <ul class="login-list"></ul>
-        <input type="checkbox" id="J_loginAuto" class="login-auto">
-        <label for="J_loginAuto" class="login-auto-txt"></label>
-        <button id="J_loginEnter" class="login-btn">登&nbsp;&nbsp;录</button>
+  <div id="backskin" class="backskin">
+    <div id="output" class="output"></div>
+  </div>
+  <div class="login-box">
+    <img id="J_loginAvatar" class="avatar" src="http://q.qlogo.cn/headimg_dl?dst_uin=3333333&spec=100" width=80 height=80>
+    <div class="login-uin-wrapper">
+        <input type="text" id="J_loginUin" class="login-uin">
+        <i id="J_loginSel"></i>
     </div>
+    <ul class="login-list"></ul>
+    <input type="checkbox" id="J_loginAuto" class="login-auto">
+    <label for="J_loginAuto" class="login-auto-txt"></label>
+    <button class="submit" id="J_loginEnter">登&nbsp;&nbsp;录</button>
+  </div>
 </div>
 
 <div id="J_Loader" class="loader" style="display:none;">
@@ -30,7 +34,7 @@
 
 <div id="J_Chat" class="chat-container" style="display:none;">
     <div class="chat-box">
-        <i class="logout-btn">r</i>
+        <i class="logout-btn">྾</i>
         <div class="notice-box"></div>
 
         <div class="list-box">
@@ -57,15 +61,18 @@
 
         <div class="config-box">
             <div class="config-cnt">
-                <input id="w_online" type="checkbox" checked><label for="w_online">上线音效</label><a id="cs_online" href="javascript:;">测试</a><br>
-                <input id="w_message" type="checkbox" checked><label for="w_message">消息音效</label><a id="cs_message" href="javascript:;">测试</a><br>
-                <input id="w_callme" type="checkbox" disabled><label for="w_callme">@我音效</label><a id="cs_callme" href="javascript:;">测试</a><br>
-                <input id="w_notify" type="checkbox"><label for="w_notify">桌面通知</label><a id="cs_notify" href="javascript:;">测试</a>
+                <!-- <input id="w_online" type="checkbox" disabled><label for="w_online">上线音效</label><a id="cs_online" href="javascript:;">测试</a><br>
+                <input id="w_message" type="checkbox" disabled><label for="w_message">消息音效</label><a id="cs_message" href="javascript:;">测试</a><br>
+                <input id="w_callme" type="checkbox" disabled><label for="w_callme">@我音效</label><a id="cs_callme" href="javascript:;">测试</a><br> -->
+                <input id="w_notify" type="checkbox">
+                <label for="w_notify">桌面通知</label>
+                <a id="cs_notify" href="javascript:;">测试</a>
             </div>
         </div>
     </div>
 </div>
 <script src="./publish/js/socket.io.js"></script>
+<script src="./publish/js/lib.min.js"></script>
 <script src="./publish/js/chat.min.js"></script>
 </body>
 </html>
