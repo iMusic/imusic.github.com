@@ -124,6 +124,7 @@ Fx.create('Fx.ui.Button', {
 var User = {
   uin: 0,
   nickname: '',
+  avatar: '',
   bubble: 0
 }
 
@@ -313,6 +314,7 @@ FSS('backskin');
     $('.loading-dots').classList.add('ani_dot');
     history.replaceState({}, null, '/chat');
     User.uin = uin;
+    User.avatar = 'http://q.qlogo.cn/headimg_dl?dst_uin='+ uin +'&spec=40'
     Fx.ex.getQQ('http://vczhan.com/api/getQQ.php?qq=' + uin, function () {
       window.getQQ = function (data) {
         User.nickname = data.nickname || uin;
@@ -333,12 +335,12 @@ function Chat() {
     '<div class="msg-item">\
       <img src="http://q.qlogo.cn/headimg_dl?dst_uin={uin}&spec=40" width=30 height=30>\
       <chat:nick>{nickname}</chat:nick>\
-      <chat:msg class="bubble_{bubble}">{msg}</chat:msg>\
+      <chat:msg class="bubble_{bubble}">{content}</chat:msg>\
     </div>',
     tmpl2 =
     '<div class="msg-item owner">\
       <img src="http://q.qlogo.cn/headimg_dl?dst_uin={uin}&spec=40" width=30 height=30>\
-      <chat:msg class="bubble_{bubble}">{msg}</chat:msg>\
+      <chat:msg class="bubble_{bubble}">{content}</chat:msg>\
     </div>';
 
   var notify_id = 1;
@@ -435,6 +437,7 @@ function Chat() {
   });
 
   socket.on('message', function (data) {
+    data.bubble = data.bubble || 0;
     var tmpl = (data.uin === User.uin) ? tmpl2 : tmpl1;
     $('.msg-cnt').innerHTML += Fx.format(tmpl, data);
     $('.msg-box').scrollTop = $('.msg-box').scrollHeight;
@@ -539,7 +542,7 @@ function Chat() {
 
     msg = $('#saveMsg').innerHTML;
     $('#saveMsg').innerHTML = '';
-    socket.emit('message', Fx.extend({}, User, {msg: msg}));
+    socket.emit('message', Fx.extend({}, User, {content: msg}));
 
   }
 
@@ -1205,31 +1208,30 @@ function RichTextOP() {
 
       clearTimeout(_this.st);
 
-      if (!_this.sound) {
-        _this.sound = doc.createElement('audio');
-        _this.sound.src = 'http://yun.365.sh/s/40091.mp3';
-      }
-      _this.sound.play();
+      // if (!_this.sound) {
+      //   _this.sound = doc.createElement('audio');
+      //   _this.sound.src = 'http://yun.365.sh/s/40091.mp3';
+      // }
+      // _this.sound.play();
 
       _this.clearRender();
 
+      html2canvas(bd, {
+          onrendered: function(canvas) {
+              var data = canvas.getContext('2d').getImageData(_this.clipObj.x, _this.clipObj.y, _this.clipObj.w, _this.clipObj.h);
+              var c = document.createElement('canvas');
+              c.width = _this.clipObj.w;
+              c.height = _this.clipObj.h;
+              var ctx = c.getContext('2d');
+              ctx.putImageData(data, 0, 0);
 
-          html2canvas(bd, {
-              onrendered: function(canvas) {
-                  var data = canvas.getContext('2d').getImageData(_this.clipObj.x, _this.clipObj.y, _this.clipObj.w, _this.clipObj.h);
-                  var c = document.createElement('canvas');
-                  c.width = _this.clipObj.w;
-                  c.height = _this.clipObj.h;
-                  var ctx = c.getContext('2d');
-                  ctx.putImageData(data, 0, 0);
+              var img = new Image();
+              img.src = c.toDataURL();
+              RichText.insertToContent(img, 'node');
 
-                  var img = new Image();
-                  img.src = c.toDataURL();
-                  RichText.insertToContent(img, 'node');
-
-                  _this.init();
-              }
-          });
+              _this.init();
+          }
+      });
     },
 
     maskRender : function() {
