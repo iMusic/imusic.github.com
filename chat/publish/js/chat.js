@@ -1,5 +1,5 @@
 /**
- * update 2016-10-10
+ * update 2016-10-11
  * 2年前写的，这次更新主要修改请求接口
  *
  * 另外最近用vue重构了一个mac版UI的QQ
@@ -358,7 +358,22 @@ function Chat() {
 	} catch(err) {}
 
   var socket = io('http://ichat.coding.io');
+  // 通知系统用户登录
   socket.emit('login', User);
+
+  //
+  socket.on('login', function() {
+    $('.notice-box').innerHTML = '<chat:notice>发送消息可按快捷键<kbd>Ctrl</kbd>+<kbd>Enter</kbd>或者<kbd>Alt</kbd>+<kbd>S</kbd></chat:notice>';
+
+    // 文本框
+    RichTextOP();
+
+    if (!Users[User.uin]) {
+      Users[User.uin] = User;
+      localStorage.setItem('users', JSON.stringify(Users));
+    }
+  });
+
   socket.on('usersUpdate', function (data) {
     $('#J_Loader').style.display = 'none';
     $('#J_Chat').style.display = 'block';
@@ -370,21 +385,10 @@ function Chat() {
     }
     $('.user-list').innerHTML = html;
 
-    $('.notice-box').innerHTML = '<chat:notice>发送消息可按快捷键<kbd>Ctrl</kbd>+<kbd>Enter</kbd>或者<kbd>Alt</kbd>+<kbd>S</kbd></chat:notice>';
-
-    // 文本框
-    RichTextOP();
-
-    if (!Users[User.uin]) {
-      Users[User.uin] = User;
-      localStorage.setItem('users', JSON.stringify(Users));
-    }
-
     userList = data;
   });
 
   socket.on('join', function (data) {
-    $('.user-list').innerHTML += Fx.format(usertmpl, data);
     $('.user-list li:last-child').className = 'online';
     $('.user-list li:last-child').addEventListener('webkitAnimationEnd', function () {
       this.className = '';
@@ -404,8 +408,6 @@ function Chat() {
     //   sound.src = 'http://yun.365.sh/s/32718.mp3';
     //   sound.play();
     // }
-
-    userList[data.uin] = data;
   });
 
   socket.on('loginErr', function (info) {
